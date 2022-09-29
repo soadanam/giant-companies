@@ -4,6 +4,7 @@ import './MainComponent.css';
 import Companies from '../Companies/Companies';
 import Cart from '../Cart/Cart';
 import CartImage from '../CartImage/CartImage';
+import Cart2 from '../Cart2/Cart2';
 
 
 const MainComponent = () => {
@@ -16,6 +17,7 @@ const MainComponent = () => {
             .then(data => {
                 setCompanies(data)
                 setDisplayCompanies(data)
+                setTimeout(setLocalKeys, 2000)
             })
     }, []);
 
@@ -25,7 +27,8 @@ const MainComponent = () => {
     // console.log('Cart is:', cart);
     const handleAddButton = (props) => {
         // console.log('handleButton:',props);
-        const newObject = [...cart, props]
+        const newObject = [...cart, props];
+        // console.log('NEWObj', newObject);
         setCart(newObject);
     };
     ////to remove the clicked element from the cart
@@ -46,6 +49,7 @@ const MainComponent = () => {
 
     ///////// Search functionality Implementation (within results)//////////
     const [displayCompanies, setDisplayCompanies] = useState([]);
+
     const handleFilteredInput = (e) => {
         const inputText = e.target.value;
         // console.log('Input Value:', inputText);
@@ -56,6 +60,76 @@ const MainComponent = () => {
 
         // e.target.value = ''; // no use of 'onChange', but 'onClick'!
     };
+
+
+
+    ///////getting data from localStorage//////
+    const getLocalKeys = () => {
+        const keys = localStorage.getItem('companyKey');
+        // console.log('keys:', keys);
+
+        let localKeys;
+        if (keys) {
+            localKeys = JSON.parse(keys);
+        }
+        else {
+            localKeys = {};
+        };
+
+        return localKeys;
+    };
+    ////getting data from getLocalKeys and putting them in a state//// 
+    const [cartKeys, setCartKeys] = useState([]);
+    // console.log('cartKeys:', cartKeys);
+    const loadLocalKeys = () => {
+        const keys = getLocalKeys();
+        setCartKeys(keys);
+        // console.log('load keys:', keys);
+    };
+    /////setting data if any item is clicked/////
+    const setLocalKeys = (props) => {
+        // console.log('setLocalKeys props', props);
+        const keys = getLocalKeys();
+
+        if (props) {
+            keys[props.name] = props;
+            const keysStringified = JSON.stringify(keys);
+            localStorage.setItem('companyKey', keysStringified);
+        }
+        else {
+        }
+
+        loadLocalKeys();
+    };
+    // setLocalKeys();
+    // setTimeout(setLocalKeys, 5000);
+    // clearTimeout(mySetTimeOut);
+
+    //////conditional function call //////
+    
+    //2//  
+    // const localData = getLocalKeys();
+    // console.log('local::', localData);
+   /*  if(localData){
+        setTimeout(setLocalKeys, 5000);
+    }
+    */
+
+    //2//
+    // localData && setTimeout(setLocalKeys, 5000);
+
+
+    //const localData = cartKeys;
+    console.log('local::', cartKeys);
+    // let stop;
+    // if(cartKeys.length === 0){
+    //     stop = setTimeout(setLocalKeys, 1000);
+    // }
+    // else if(cartKeys.length !== 0){
+    //     clearTimeout(stop);
+    // }
+
+
 
 
     return (
@@ -78,7 +152,7 @@ const MainComponent = () => {
             <div className='main-component'>
                 <div className='container companies'>
                     {
-                        displayCompanies.map(company => <Companies company={company} key={company.id} handleAddButton={handleAddButton}></Companies>)
+                        displayCompanies.map(company => <Companies company={company} key={company.id} handleAddButton={handleAddButton} setLocalKeys={setLocalKeys}></Companies>)
                     }
                 </div>
                 <div className='cart-container'>
@@ -89,6 +163,9 @@ const MainComponent = () => {
                             cart.map(cart => <CartImage cart={cart} key={randomNumber()} handleCross={handleCross}></CartImage>)
                         }
                     </div>
+                </div>
+                <div className="cart2-container">
+                    <Cart2 cartKeys={cartKeys}></Cart2>
                 </div>
             </div>
             <div className="footer-div">

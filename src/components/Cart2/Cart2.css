@@ -1,0 +1,19 @@
+.cart2-container{
+    background-color: rgba(144, 144, 144, 0.123);
+    margin-top: 50px;
+    border-radius: 30px;
+    color: rgba(134, 134, 134, 0.568);
+    /* font-size: 12px; */
+}
+.cart2-image{
+    width: 50px;
+    height: 25px;
+    margin: 1px;
+    border-radius: 20%;
+}
+.image-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

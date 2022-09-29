@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Companies.css'
 const Companies = (props) => {
-    // console.log(props);
+    // console.log('Companies Props:', props);
 
     const { name, founder, CEO, about, stockPrice, revenue, imgURL, headquarters } = props.company;
 
@@ -26,7 +26,10 @@ const Companies = (props) => {
                 <h6>Revenue: {revenue} billion USD </h6>
                 <h6 className='headquarters'>Headquarters: {headquarters}</h6>
 
-                <button onClick={() => {props.handleAddButton(props.company); setDisable(true); }} disabled={disable} className='btn btn-secondary common-add-button'> <i className="fa-solid fa-calculator"></i> Add To Calculate</button>
+                {/* <button onClick={() => {props.handleAddButton(props.company); setDisable(true); props.addToLocalStorageCart(props.company); }} disabled={disable} className='btn btn-secondary common-add-button'> <i className="fa-solid fa-calculator"></i> Add To Calculate</button> */}
+
+                <button onClick={() => {
+                    props.handleAddButton(props.company); setDisable(true); props.setLocalKeys(props.company); }} disabled={disable} className='btn btn-secondary common-add-button'> <i className="fa-solid fa-calculator"></i> Add To Calculate</button>
 
                 <div className='icons'>
                     <a href="https://www.facebook.com/">
